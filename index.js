@@ -1,82 +1,78 @@
 const URL = 'https://randomuser.me/api/?results=100';
 const CARDS = document.querySelector('.cards');
-
-// let allUsers;
+let filterBy = 'all';
+let allFriends;
 let friends = [];
+let sortedFriends;
 
 function initialApp() {
     fetch(URL)
         .then(response => response.json())
-        // .then(data => {allUsers = data.results;
-        .then((json) => {
-            userTemplate(json.results);
-        });
-    // CARDS.appendChild(img);
-    // return allUsers.map(users => console.log(users.picture.large));
-
-    // console.log(users);
-    // } );
+        .then((data) => (allFriends = data.results))
+        .then(() => userTemplate(allFriends))
 }
 
-function userTemplate (array) {
+function userTemplate(array) {
     friends = array.map(user => {
-        return {
-            name: `${user.name.first} ${user.name.last}`,
-            age: user.dob.age,
-            gender: user.gender,
-            photo: user.picture.large
-        }
+            return {
+                name: `${user.name.first} ${user.name.last}`,
+                age: user.dob.age,
+                gender: user.gender,
+                photo: user.picture.large
+            }
     });
     renderUsers();
 }
 
-// function createCardItem (item) {
-//
-//     const img = document.createElement('img');
-//     CARDS.appendChild(img);
-//     img.classList.add('card-wrapper');
-//     console.log(CARDS);
-//     img.src = item.photo;
-// }
-
-function createCardItem (item) {
-    // console.log(item);
+function createCardItem(item) {
     const cardWrapper = document.createElement('div');
-    cardWrapper.classList.add('card-wrapper');
-    CARDS.appendChild(cardWrapper);
     const img = document.createElement('img');
-    cardWrapper.appendChild(img);
-    img.classList.add('img-card');
     const name = document.createElement('p');
-    cardWrapper.appendChild(name);
     const userName = document.createTextNode(item.name);
-    name.appendChild(userName);
     const age = document.createElement('p');
-    cardWrapper.appendChild(age);
     const userAge = document.createTextNode(item.age);
-    name.appendChild(userAge);
     const gender = document.createElement('p');
-    cardWrapper.appendChild(gender);
     const userGender = document.createTextNode(item.gender);
-    name.appendChild(userGender);
-    img.src = item.photo;
 
+    cardWrapper.classList.add('card-wrapper');
+    img.classList.add('img-card');
+
+    CARDS.appendChild(cardWrapper);
+    cardWrapper.appendChild(img);
+    cardWrapper.appendChild(name);
+    name.appendChild(userName);
+    cardWrapper.appendChild(age);
+    name.appendChild(userAge);
+    cardWrapper.appendChild(gender);
+    name.appendChild(userGender);
+
+    img.src = item.photo;
 }
+
+document.querySelector(".gender").addEventListener("click", filterByGender);
+
+
+function filterByGender({target}) {
+    getSortedFriends(target.value);
+}
+
+
+function getSortedFriends(choosedGender) {
+    console.log(choosedGender);
+    if (choosedGender === 'all') {
+        return friends;
+        console.log(friends);
+    } else {
+        console.log(friends.filter(element => element.gender === choosedGender)) ;
+        return friends.filter(element => element.gender === choosedGender);
+    }
+}
+
+
 function renderUsers() {
     friends.forEach(elem => {
-        // console.log(elem);
-        // CARDS.appendChild(createCardItem(elem));
         createCardItem(elem);
-        // friends.push(elem);
-
-    });
-    console.log(friends)
+});
 }
 
-// function filtrByGender() {
-//
-// }
-
-// console.log(allUsers);
-// console.log(users);
 document.addEventListener('DOMContentLoaded', initialApp);
