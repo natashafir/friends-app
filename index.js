@@ -1,19 +1,21 @@
-const URL = 'https://randomuser.me/api/?results=100';
+const URL = 'https://randomuser.me/api/?results=8';
 const CARDS = document.querySelector('.cards');
 let filterBy = 'all';
-let allFriends;
+let allFriends = [];
 let friends = [];
 let sortedFriends;
+
 
 function initialApp() {
     fetch(URL)
         .then(response => response.json())
         .then((data) => (allFriends = data.results))
         .then(() => userTemplate(allFriends))
+        .then(()=> renderUsers(allFriends))
 }
 
 function userTemplate(array) {
-    friends = array.map(user => {
+    allFriends = array.map(user => {
             return {
                 name: `${user.name.first} ${user.name.last}`,
                 age: user.dob.age,
@@ -21,7 +23,6 @@ function userTemplate(array) {
                 photo: user.picture.large
             }
     });
-    renderUsers();
 }
 
 function createCardItem(item) {
@@ -53,24 +54,33 @@ document.querySelector(".gender").addEventListener("click", filterByGender);
 
 
 function filterByGender({target}) {
-    getSortedFriends(target.value);
+    let sortedArr = [...allFriends];
+     sortedArr = getSortedFriends(sortedArr, target.value);
+    return renderUsers(sortedArr);
+    // console.log(sortedArr);
+    // getSortedFriends(target.value);
 }
 
 
-function getSortedFriends(choosedGender) {
+function getSortedFriends(dataToSort, choosedGender) {
     console.log(choosedGender);
     if (choosedGender === 'all') {
-        return friends;
-        console.log(friends);
+        return dataToSort;
+        // console.log(friends);
     } else {
-        console.log(friends.filter(element => element.gender === choosedGender)) ;
-        return friends.filter(element => element.gender === choosedGender);
+        // console.log(friends.filter(element => element.gender === choosedGender)) ;
+        return dataToSort.filter(element => element.gender === choosedGender);
+        // renderUsers(friends.filter(element => element.gender === choosedGender));
     }
+
+
 }
 
-
-function renderUsers() {
-    friends.forEach(elem => {
+function renderUsers(item) {
+    // console.log(item);
+    // item = friends;
+    // console.log(item);
+    item.forEach(elem => {
         createCardItem(elem);
 });
 }
