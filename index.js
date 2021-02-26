@@ -1,5 +1,6 @@
 const URL = 'https://randomuser.me/api/?results=8';
 const CARDS = document.querySelector('.cards');
+// CARDS.innerHTML = "";
 let filterBy = 'all';
 let allFriends = [];
 let friends = [];
@@ -9,9 +10,9 @@ let sortedFriends;
 function initialApp() {
     fetch(URL)
         .then(response => response.json())
-        .then((data) => (allFriends = data.results))
-        .then(() => userTemplate(allFriends))
-        .then(()=> renderUsers(allFriends))
+.then((data) => (allFriends = data.results))
+.then(() => userTemplate(allFriends))
+.then(()=> renderUsers(allFriends))
 }
 
 function userTemplate(array) {
@@ -22,10 +23,11 @@ function userTemplate(array) {
                 gender: user.gender,
                 photo: user.picture.large
             }
-    });
+        });
 }
 
 function createCardItem(item) {
+
     const cardWrapper = document.createElement('div');
     const img = document.createElement('img');
     const name = document.createElement('p');
@@ -55,15 +57,17 @@ document.querySelector(".gender").addEventListener("click", filterByGender);
 
 function filterByGender({target}) {
     let sortedArr = [...allFriends];
-     sortedArr = getSortedFriends(sortedArr, target.value);
+    sortedArr = getSortedFriends(sortedArr, target.value);
     return renderUsers(sortedArr);
     // console.log(sortedArr);
     // getSortedFriends(target.value);
+
 }
 
 
 function getSortedFriends(dataToSort, choosedGender) {
     console.log(choosedGender);
+    CARDS.innerHTML = "";
     if (choosedGender === 'all') {
         return dataToSort;
         // console.log(friends);
