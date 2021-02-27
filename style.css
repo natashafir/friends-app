@@ -1,12 +1,6 @@
-body {
-    /*background-color: #f9f3f3;*/
-}
 
 .wrapper {
-    /*display: flex;*/
-    /*margin: 0 auto;*/
     padding: 0 10%;
-
 }
 
 .page-name {
@@ -36,20 +30,16 @@ body {
 
 }
 
-
 .img-card {
-    /*padding: 10px;*/
     background-color: aliceblue;
-    /*width: calc(25% - 10px);*/
-    /*height: calc(25% - 10px);*/
     margin: 5px;
-    /*position: relative;*/
 }
 
 .buttons-wrapper {
     background-color: #dddddd;
     padding: 20px 10px;
 }
+
 .search-form {
     width: 190px;
     height: 30px;
