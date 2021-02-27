@@ -26,6 +26,7 @@ function userTemplate(array) {
 }
 
 function createCardItem(item) {
+    const BR = document.createElement("br")
     const cardWrapper = document.createElement('div');
     const img = document.createElement('img');
     const name = document.createElement('p');
@@ -42,13 +43,14 @@ function createCardItem(item) {
     cardWrapper.appendChild(img);
     cardWrapper.appendChild(name);
     name.appendChild(userName);
+    name.appendChild(BR);
     cardWrapper.appendChild(age);
     name.appendChild(userAge);
     cardWrapper.appendChild(gender);
-    name.appendChild(userGender);
 
     img.src = item.photo;
 }
+
 
 document.querySelector(".gender").addEventListener("click", filterByGender);
 document.querySelector(".age").addEventListener("click", filterByGender);
