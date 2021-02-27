@@ -1,18 +1,17 @@
-const URL = 'https://randomuser.me/api/?results=8';
+const URL = 'https://randomuser.me/api/?results=50';
 const CARDS = document.querySelector('.cards');
-// CARDS.innerHTML = "";
 let filterBy = 'all';
 let allFriends = [];
 let friends = [];
 let sortedFriends;
-
+const input = document.querySelector('input');
 
 function initialApp() {
     fetch(URL)
         .then(response => response.json())
-.then((data) => (allFriends = data.results))
-.then(() => userTemplate(allFriends))
-.then(()=> renderUsers(allFriends))
+        .then((data) => (allFriends = data.results))
+        .then(() => userTemplate(allFriends))
+        .then(()=> renderUsers(allFriends))
 }
 
 function userTemplate(array) {
@@ -27,7 +26,6 @@ function userTemplate(array) {
 }
 
 function createCardItem(item) {
-
     const cardWrapper = document.createElement('div');
     const img = document.createElement('img');
     const name = document.createElement('p');
@@ -53,37 +51,52 @@ function createCardItem(item) {
 }
 
 document.querySelector(".gender").addEventListener("click", filterByGender);
+document.querySelector(".age").addEventListener("click", filterByGender);
+document.querySelector(".name").addEventListener("click", filterByGender);
+input.addEventListener('input', filterByGender);
 
 
 function filterByGender({target}) {
     let sortedArr = [...allFriends];
+    if (target.type != 'radio') {
+        sortedArr = sortedArr.filter(element =>
+            element.name.toLowerCase().includes(target.value.toLowerCase()));
+    }
     sortedArr = getSortedFriends(sortedArr, target.value);
     return renderUsers(sortedArr);
-    // console.log(sortedArr);
-    // getSortedFriends(target.value);
-
 }
 
 
 function getSortedFriends(dataToSort, choosedGender) {
-    console.log(choosedGender);
-    CARDS.innerHTML = "";
-    if (choosedGender === 'all') {
-        return dataToSort;
-        // console.log(friends);
-    } else {
-        // console.log(friends.filter(element => element.gender === choosedGender)) ;
-        return dataToSort.filter(element => element.gender === choosedGender);
-        // renderUsers(friends.filter(element => element.gender === choosedGender));
+    if (choosedGender == 'ageo' || choosedGender == 'agey'){
+        dataToSort.sort(function(x,y){
+            return x.age - y.age;
+        });
+        if(choosedGender == 'ageo'){
+            dataToSort.reverse();
+        }
+    } else if (choosedGender == 'namea' || choosedGender == 'namez'){
+        dataToSort.sort(function(x,y){
+            let a = x.name.toUpperCase(),
+                b = y.name.toUpperCase();
+            return a == b ? 0 : a > b ? 1 : -1;
+        });
+        if (choosedGender == 'namez'){
+            dataToSort.reverse();
+        }
+    } else if (choosedGender == 'all' || choosedGender == 'female' || choosedGender == 'male'){
+        filterBy = choosedGender;
     }
 
-
+    if (filterBy === 'all') {
+        return dataToSort;
+    } else {
+        return dataToSort.filter(element => element.gender === filterBy);
+    }
 }
 
 function renderUsers(item) {
-    // console.log(item);
-    // item = friends;
-    // console.log(item);
+    CARDS.innerHTML = '';
     item.forEach(elem => {
         createCardItem(elem);
 });

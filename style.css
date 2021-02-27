@@ -1,9 +1,30 @@
+body {
+    /*background-color: #f9f3f3;*/
+}
+
+.wrapper {
+    /*display: flex;*/
+    /*margin: 0 auto;*/
+    padding: 0 10%;
+
+}
+
+.page-name {
+    text-align: center;
+}
+
+.section-memory {
+    margin: 0 auto;
+    background-color: #f9f3f3;
+}
+
 .cards {
     max-width: 840px;
-    background-color: lightpink;
+    margin: 0 auto;
+    /*background-color: lightpink;*/
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
 }
 
 .card-wrapper {
@@ -24,3 +45,16 @@
     margin: 5px;
     /*position: relative;*/
 }
+
+.buttons-wrapper {
+    background-color: #dddddd;
+    padding: 20px 10px;
+}
+.search-form {
+    width: 190px;
+    height: 30px;
+    margin-bottom: 10px;
+
+}
+
+
