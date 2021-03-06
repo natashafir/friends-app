@@ -6,11 +6,11 @@ let friends = [];
 let sortedFriends;
 const input = document.querySelector('input');
 
-function initialApp() {
+function initializeApp() {
      fetch(URL)
         .then(response => response.json())
         .then((data) => (allFriends = data.results))
-        .then(() => userTemplate(allFriends))
+        .then(() => makeUserTemplate(allFriends))
         .then(()=> renderUsers(allFriends))
         .catch(err => {
             console.log(err);
@@ -18,7 +18,7 @@ function initialApp() {
         })
 }
 
-function userTemplate(array) {
+function makeUserTemplate(array) {
     allFriends = array.map(user => {
             return {
                 name: `${user.name.first} ${user.name.last}`,
@@ -34,9 +34,7 @@ function createCardItem(item) {
     return template;
 };
 
-document.querySelector(".gender").addEventListener("click", filterByChoose);
-document.querySelector(".age").addEventListener("click", filterByChoose);
-document.querySelector(".name").addEventListener("click", filterByChoose);
+document.querySelector(".buttons-wrapper").addEventListener("click", filterByChoose);
 input.addEventListener('input', filterByChoose);
 
 function filterByChoose({target}) {
@@ -87,4 +85,4 @@ function renderUsers(item) {
     CARDS.innerHTML = cards;
 }
 
-document.addEventListener('DOMContentLoaded', initialApp);
+document.addEventListener('DOMContentLoaded', initializeApp);
