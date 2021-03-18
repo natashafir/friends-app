@@ -30,21 +30,35 @@ function makeUserTemplate(array) {
 }
 
 function createCardItem(item) {
-    const template = `<div class="card-wrapper"><img class="img-card" src="${item.photo}"></img><p>${item.name}</p><p>Age: ${item.age}</p></div>`
-    return template;
+    return `<div class="card-wrapper">
+                <img class="img-card" src="${item.photo}"></img>
+                <p>${item.name}</p>
+                <p>Age: ${item.age}</p>
+            </div>`
 };
 
 document.querySelector(".buttons-wrapper").addEventListener("click", filterByChoose);
 input.addEventListener('input', filterByChoose);
 
 function filterByChoose({target}) {
-    let sortedArr = allFriends;
+    let filteredArr = allFriends;
     if (target.type != 'radio') {
-        sortedArr = sortedArr.filter(element =>
+        filteredArr = filteredArr.filter(element =>
             element.name.toLowerCase().includes(target.value.toLowerCase()));
     }
-    sortedArr = getSortedFriends(sortedArr, target.value);
-    return renderUsers(sortedArr);
+    filteredArr = getSortedFriends(filteredArr, target.value);
+    return renderUsers(filteredArr);
+}
+
+function sortByAge(dataToSort, choosedRadio) {
+    if (choosedRadio == 'old-first' || choosedRadio == 'young-first') {
+        dataToSort.sort(function (x, y) {
+            return x.age - y.age;
+        });
+        if (choosedRadio == 'old-first') {
+            dataToSort.reverse();
+        }
+    }
 }
 
 
